@@ -1,16 +1,24 @@
 services:
   api:
     build: ./backend
+    container_name: backend_api
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
+      - /app/node_modules # Evita que los módulos locales sobrescriban los del contenedor
     environment:
       - ENV=development
 
   web:
     build: ./frontend
+    container_name: frontend_web
     ports:
       - "5173:5173"
     volumes:
       - ./frontend:/app
+      - /app/node_modules # Importante para evitar conflictos de dependencias
+    depends_on:
+      - api
+    environment:
+      - VITE_API_URL=http://localhost:8000
