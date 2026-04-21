@@ -1,14 +1,11 @@
-from abc import ABC, abstractmethod
+from backend.models.Rol import Rol
 
-class Usuario(ABC):
-    @abstractmethod
-    def __init__(self, id, nombre, usuario, contrasenia, rol):
-        self.id = id
+class Usuario(Rol):
+    def _init_(self, id_usuario, nombre, contrasenia, rol):
+        self.id = id_usuario
         self.nombre = nombre
-        self.usuario = usuario
         self.contrasenia = contrasenia
-        self.rol = rol
+        self.rol = Rol
 
-    def __str__(self):
-        return f"Usuario(ID: {self.id}, Usuario: {self.usuario} Nombre: {self.nombre}, Rol: {self.rol})"
-
+    def login(self) -> bool:
+        pass
