@@ -7,5 +7,5 @@ class Usuario(Rol):
         self.contrasenia = contrasenia
         self.rol = Rol
 
-    def login(self) -> bool:
-        pass
+    def login(self, usuario_ingresado, clave_ingresada) -> bool:
+        return self.nombre == usuario_ingresado and self.contrasenia == clave_ingresada

@@ -14,11 +14,10 @@ app.add_middleware(
 async def get_data():
     return {"items": ["Vue", "FastAPI", "uv"]}
 
-# Ruta de prueba para descartar problemas de path
 @app.get("/test")
 async def test():
     return {"status": "ok"}
 
 @app.get("/")
 def home():
-    return {"status": "Basketcito API is running"}
+    return {"status": "Stock API is running"}

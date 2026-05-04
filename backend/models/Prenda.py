@@ -10,4 +10,7 @@ class Prenda:
         self.stock_minimo = stock_minimo
 
     def verificar_alerta_stock(self) -> bool:
-        return self.stock_actual <= self.stock_minimo
+        if self.stock_actual <= self.stock_minimo:
+            print(f"ALERTA: Stock mínimo para {self.tipo_tela} (Talle {self.talle})")
+            return True
+        return False

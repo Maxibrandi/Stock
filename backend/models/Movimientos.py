@@ -15,3 +15,11 @@ class Movimiento:
     def registrar_log(self):
         print(f"[{self.fecha.strftime('%Y-%m-%d %H:%M')}] {self.tipo}: "
               f"{self.cantidad} unidades de {self.prenda.nombre} por {self.usuario.nombre}")
+
+
+    def registrar_movimiento(self):
+         if self.tipo.lower() == "entrada":
+            self.prenda.stock_actual += self.cantidad
+         elif self.tipo.lower() == "salida":
+            self.prenda.stock_actual -= self.cantidad
+            self.prenda.verify_alerta_stock()

@@ -6,7 +6,7 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
-      - /app/node_modules # Evita que los módulos locales sobrescriban los del contenedor
+      - /app/node_modules
     environment:
       - ENV=development
 
@@ -17,7 +17,7 @@ services:
       - "5173:5173"
     volumes:
       - ./frontend:/app
-      - /app/node_modules # Importante para evitar conflictos de dependencias
+      - /app/node_modules
     depends_on:
       - api
     environment:
