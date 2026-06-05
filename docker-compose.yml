@@ -1,4 +1,21 @@
 services:
+  database_postgres:
+    image: postgres:15-alpine
+    container_name: database_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=stock_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d stock_db || exit 1" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
   api:
     build: ./backend
     container_name: backend_api
@@ -6,9 +23,12 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
-      - /app/node_modules
     environment:
       - ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@database_postgres:5432/stock_db
+    depends_on: # <-- MODIFICA ESTO en tu API
+      database_postgres:
+        condition: service_healthy
 
   web:
     build: ./frontend
@@ -22,3 +42,6 @@ services:
       - api
     environment:
       - VITE_API_URL=http://localhost:8000
+
+volumes:
+  postgres_data:
