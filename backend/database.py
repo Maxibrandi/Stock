@@ -1,15 +1,22 @@
 import os
-from sqlmodel import SQLModel, create_engine, Session
-from fastapi import Depends
-from typing import Generator
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://stock_user:stock_password@db:5432/stock_inventory")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@database_postgres:5432/stock_db")
 
-engine = create_engine(DATABASE_URL, echo=True)
+# Cambiamos esta línea para agregar tolerancia a la conexión en Docker
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True, # Verifica si la conexión sigue viva antes de usarla
+)
 
-def init_db():
-    SQLModel.metadata.create_all(engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
-def get_db() -> Generator[Session, None, None]:
-    with Session(engine) as session:
-        yield session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

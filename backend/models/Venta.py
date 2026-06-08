@@ -4,7 +4,7 @@ from backend.models.Usuario import Usuario
 from backend.models.Movimientos import Movimiento
 
 class Venta:
-    def _init_(self, id_venta, usuario, prenda, total, movimiento):
+    def __init__(self, id_venta, usuario, prenda, total, movimiento):
         self.id = id_venta
         self.fecha = datetime.now()
         self.usuario = Usuario

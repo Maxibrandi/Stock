@@ -3,7 +3,6 @@ from typing import Optional
 from datetime import datetime
 from enum import Enum
 
-
 # --- ENUMS PARA VALIDACIÓN SEMÁNTICA ---
 class TalleEnum(str, Enum):
     XS = "XS"
@@ -20,9 +19,10 @@ class PrendaBase(SQLModel):
     codigo_barras: str = Field(unique=True, index=True, max_length=50)
     categoria: str = Field(index=True, max_length=50)  # Ej: "Remeras", "Pantalones"
     talle: TalleEnum
-    color: str = Field(max_length=30)
+    tipo_tela: Optional[str] = Field(default=None, max_length=50) # Agregado desde tu PrendaModel
     precio: float = Field(default=0.0, gt=0)  # El precio debe ser mayor a 0
     stock_actual: int = Field(default=0, ge=0)  # El stock no puede ser negativo
+    stock_minimo: int = Field(default=2, ge=0)  # Agregado desde tu PrendaModel
 
 
 # Este modelo representa fielmente la tabla física en PostgreSQL
@@ -43,6 +43,7 @@ class PrendaUpdate(SQLModel):
     codigo_barras: Optional[str] = None
     categoria: Optional[str] = None
     talle: Optional[TalleEnum] = None
-    color: Optional[str] = None
+    tipo_tela: Optional[str] = None
     precio: Optional[float] = None
     stock_actual: Optional[int] = None
+    stock_minimo: Optional[int] = None

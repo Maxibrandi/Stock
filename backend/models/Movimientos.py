@@ -3,7 +3,7 @@ from backend.models.Prenda import Prenda
 from backend.models.Usuario import Usuario
 
 class Movimiento:
-    def _init_(self, id_mov, nombre, prenda, usuario, tipo, cantidad):
+    def __init__(self, id_mov, nombre, prenda, usuario, tipo, cantidad):
         self.id = id_mov
         self.fecha = datetime.now()
         self.prenda = Prenda
